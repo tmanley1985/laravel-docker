@@ -1,0 +1,30 @@
+web:
+    image: michaelbunch/nginx-php:5.6
+    environment:
+        DB_HOST: db
+        DB_DATABASE: laravel
+        DB_USERNAME: laravel
+        DB_PASSWORD: secret
+        REDIS_HOST: redis
+        REDIS_PORT: 6379
+    links:
+        - db
+        - db:laravel.dev
+        - redis
+    ports:
+        - "80:80"
+    volumes:
+        - /vagrant:/var/www
+db:
+    image: mysql/mysql-server:5.6
+    environment:
+        MYSQL_ROOT_PASSWORD: secret
+        MYSQL_DATABASE: laravel
+        MYSQL_USER: laravel
+        MYSQL_PASSWORD: secret
+    ports:
+        - "3306:3306"
+redis:
+    image: redis:3.0
+    ports:
+        - "6379:6379"
